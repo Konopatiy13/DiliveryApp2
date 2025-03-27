@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Dilivery2DBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="couriers">
+          <Key>
+            <PropertyRef Name="courier_id" />
+          </Key>
+          <Property Name="courier_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="courier_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="courier_phone" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="vehicle_type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="customer_address" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="customer_phone" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="deliveries">
+          <Key>
+            <PropertyRef Name="delivery_id" />
+          </Key>
+          <Property Name="delivery_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="courier_id" Type="int" Nullable="false" />
+          <Property Name="delivery_status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="delivery_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="menu_items">
+          <Key>
+            <PropertyRef Name="menu_item_id" />
+          </Key>
+          <Property Name="menu_item_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="restaurant_id" Type="int" Nullable="false" />
+          <Property Name="item_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="item_description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="item_price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order_items">
+          <Key>
+            <PropertyRef Name="order_item_id" />
+          </Key>
+          <Property Name="order_item_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="menu_item_id" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="restaurant_id" Type="int" Nullable="false" />
+          <Property Name="total_amount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="order_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="restaurants">
+          <Key>
+            <PropertyRef Name="restaurant_id" />
+          </Key>
+          <Property Name="restaurant_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="restaurant_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="restaurant_address" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="restaurant_phone" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="reviews">
+          <Key>
+            <PropertyRef Name="review_id" />
+          </Key>
+          <Property Name="review_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="restaurant_id" Type="int" Nullable="false" />
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="rating" Type="int" />
+          <Property Name="comment" Type="nvarchar(max)" />
+          <Property Name="review_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__deliverie__couri__5DCAEF64">
+          <End Role="couriers" Type="Self.couriers" Multiplicity="1" />
+          <End Role="deliveries" Type="Self.deliveries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="couriers">
+              <PropertyRef Name="courier_id" />
+            </Principal>
+            <Dependent Role="deliveries">
+              <PropertyRef Name="courier_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__deliverie__order__5CD6CB2B">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="deliveries" Type="Self.deliveries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="deliveries">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__menu_item__resta__4D94879B">
+          <End Role="restaurants" Type="Self.restaurants" Multiplicity="1" />
+          <End Role="menu_items" Type="Self.menu_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="restaurants">
+              <PropertyRef Name="restaurant_id" />
+            </Principal>
+            <Dependent Role="menu_items">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__menu___5629CD9C">
+          <End Role="menu_items" Type="Self.menu_items" Multiplicity="1" />
+          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu_items">
+              <PropertyRef Name="menu_item_id" />
+            </Principal>
+            <Dependent Role="order_items">
+              <PropertyRef Name="menu_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__order__5535A963">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="order_items">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__customer__5165187F">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__restaura__52593CB8">
+          <End Role="restaurants" Type="Self.restaurants" Multiplicity="1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="restaurants">
+              <PropertyRef Name="restaurant_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__reviews__custome__6383C8BA">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="reviews" Type="Self.reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="reviews">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__reviews__restaur__628FA481">
+          <End Role="restaurants" Type="Self.restaurants" Multiplicity="1" />
+          <End Role="reviews" Type="Self.reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="restaurants">
+              <PropertyRef Name="restaurant_id" />
+            </Principal>
+            <Dependent Role="reviews">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Dilivery2DBModelContainer">
+          <EntitySet Name="couriers" EntityType="Self.couriers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="customers" EntityType="Self.customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="deliveries" EntityType="Self.deliveries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="menu_items" EntityType="Self.menu_items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_items" EntityType="Self.order_items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="restaurants" EntityType="Self.restaurants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reviews" EntityType="Self.reviews" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__deliverie__couri__5DCAEF64" Association="Self.FK__deliverie__couri__5DCAEF64">
+            <End Role="couriers" EntitySet="couriers" />
+            <End Role="deliveries" EntitySet="deliveries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__deliverie__order__5CD6CB2B" Association="Self.FK__deliverie__order__5CD6CB2B">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="deliveries" EntitySet="deliveries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__menu_item__resta__4D94879B" Association="Self.FK__menu_item__resta__4D94879B">
+            <End Role="restaurants" EntitySet="restaurants" />
+            <End Role="menu_items" EntitySet="menu_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__menu___5629CD9C" Association="Self.FK__order_ite__menu___5629CD9C">
+            <End Role="menu_items" EntitySet="menu_items" />
+            <End Role="order_items" EntitySet="order_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__order__5535A963" Association="Self.FK__order_ite__order__5535A963">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="order_items" EntitySet="order_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__customer__5165187F" Association="Self.FK__orders__customer__5165187F">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__restaura__52593CB8" Association="Self.FK__orders__restaura__52593CB8">
+            <End Role="restaurants" EntitySet="restaurants" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__reviews__custome__6383C8BA" Association="Self.FK__reviews__custome__6383C8BA">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="reviews" EntitySet="reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__reviews__restaur__628FA481" Association="Self.FK__reviews__restaur__628FA481">
+            <End Role="restaurants" EntitySet="restaurants" />
+            <End Role="reviews" EntitySet="reviews" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Dilivery2DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="couriers">
+          <Key>
+            <PropertyRef Name="courier_id" />
+          </Key>
+          <Property Name="courier_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="courier_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="courier_phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="vehicle_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="deliveries" Relationship="Self.FK__deliverie__couri__5DCAEF64" FromRole="couriers" ToRole="deliveries" />
+        </EntityType>
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customer_address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customer_phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__orders__customer__5165187F" FromRole="customers" ToRole="orders" />
+          <NavigationProperty Name="reviews" Relationship="Self.FK__reviews__custome__6383C8BA" FromRole="customers" ToRole="reviews" />
+        </EntityType>
+        <EntityType Name="deliveries">
+          <Key>
+            <PropertyRef Name="delivery_id" />
+          </Key>
+          <Property Name="delivery_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <Property Name="courier_id" Type="Int32" Nullable="false" />
+          <Property Name="delivery_status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="delivery_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="couriers" Relationship="Self.FK__deliverie__couri__5DCAEF64" FromRole="deliveries" ToRole="couriers" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__deliverie__order__5CD6CB2B" FromRole="deliveries" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="menu_items">
+          <Key>
+            <PropertyRef Name="menu_item_id" />
+          </Key>
+          <Property Name="menu_item_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="restaurant_id" Type="Int32" Nullable="false" />
+          <Property Name="item_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="item_description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="item_price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="restaurants" Relationship="Self.FK__menu_item__resta__4D94879B" FromRole="menu_items" ToRole="restaurants" />
+          <NavigationProperty Name="order_items" Relationship="Self.FK__order_ite__menu___5629CD9C" FromRole="menu_items" ToRole="order_items" />
+        </EntityType>
+        <EntityType Name="order_items">
+          <Key>
+            <PropertyRef Name="order_item_id" />
+          </Key>
+          <Property Name="order_item_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <Property Name="menu_item_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="menu_items" Relationship="Self.FK__order_ite__menu___5629CD9C" FromRole="order_items" ToRole="menu_items" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__order_ite__order__5535A963" FromRole="order_items" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="restaurant_id" Type="Int32" Nullable="false" />
+          <Property Name="total_amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="order_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="customers" Relationship="Self.FK__orders__customer__5165187F" FromRole="orders" ToRole="customers" />
+          <NavigationProperty Name="deliveries" Relationship="Self.FK__deliverie__order__5CD6CB2B" FromRole="orders" ToRole="deliveries" />
+          <NavigationProperty Name="order_items" Relationship="Self.FK__order_ite__order__5535A963" FromRole="orders" ToRole="order_items" />
+          <NavigationProperty Name="restaurants" Relationship="Self.FK__orders__restaura__52593CB8" FromRole="orders" ToRole="restaurants" />
+        </EntityType>
+        <EntityType Name="restaurants">
+          <Key>
+            <PropertyRef Name="restaurant_id" />
+          </Key>
+          <Property Name="restaurant_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="restaurant_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="restaurant_address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="restaurant_phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="menu_items" Relationship="Self.FK__menu_item__resta__4D94879B" FromRole="restaurants" ToRole="menu_items" />
+          <NavigationProperty Name="orders" Relationship="Self.FK__orders__restaura__52593CB8" FromRole="restaurants" ToRole="orders" />
+          <NavigationProperty Name="reviews" Relationship="Self.FK__reviews__restaur__628FA481" FromRole="restaurants" ToRole="reviews" />
+        </EntityType>
+        <EntityType Name="reviews">
+          <Key>
+            <PropertyRef Name="review_id" />
+          </Key>
+          <Property Name="review_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="restaurant_id" Type="Int32" Nullable="false" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="rating" Type="Int32" />
+          <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="review_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="customers" Relationship="Self.FK__reviews__custome__6383C8BA" FromRole="reviews" ToRole="customers" />
+          <NavigationProperty Name="restaurants" Relationship="Self.FK__reviews__restaur__628FA481" FromRole="reviews" ToRole="restaurants" />
+        </EntityType>
+        <Association Name="FK__deliverie__couri__5DCAEF64">
+          <End Role="couriers" Type="Self.couriers" Multiplicity="1" />
+          <End Role="deliveries" Type="Self.deliveries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="couriers">
+              <PropertyRef Name="courier_id" />
+            </Principal>
+            <Dependent Role="deliveries">
+              <PropertyRef Name="courier_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__customer__5165187F">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__reviews__custome__6383C8BA">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="reviews" Type="Self.reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="reviews">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__deliverie__order__5CD6CB2B">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="deliveries" Type="Self.deliveries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="deliveries">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__menu_item__resta__4D94879B">
+          <End Role="restaurants" Type="Self.restaurants" Multiplicity="1" />
+          <End Role="menu_items" Type="Self.menu_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="restaurants">
+              <PropertyRef Name="restaurant_id" />
+            </Principal>
+            <Dependent Role="menu_items">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__menu___5629CD9C">
+          <End Role="menu_items" Type="Self.menu_items" Multiplicity="1" />
+          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu_items">
+              <PropertyRef Name="menu_item_id" />
+            </Principal>
+            <Dependent Role="order_items">
+              <PropertyRef Name="menu_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_ite__order__5535A963">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="order_items">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__orders__restaura__52593CB8">
+          <End Role="restaurants" Type="Self.restaurants" Multiplicity="1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="restaurants">
+              <PropertyRef Name="restaurant_id" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__reviews__restaur__628FA481">
+          <End Role="restaurants" Type="Self.restaurants" Multiplicity="1" />
+          <End Role="reviews" Type="Self.reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="restaurants">
+              <PropertyRef Name="restaurant_id" />
+            </Principal>
+            <Dependent Role="reviews">
+              <PropertyRef Name="restaurant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Dilivery2DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="couriers" EntityType="Self.couriers" />
+          <EntitySet Name="customers" EntityType="Self.customers" />
+          <EntitySet Name="deliveries" EntityType="Self.deliveries" />
+          <EntitySet Name="menu_items" EntityType="Self.menu_items" />
+          <EntitySet Name="order_items" EntityType="Self.order_items" />
+          <EntitySet Name="orders" EntityType="Self.orders" />
+          <EntitySet Name="restaurants" EntityType="Self.restaurants" />
+          <EntitySet Name="reviews" EntityType="Self.reviews" />
+          <AssociationSet Name="FK__deliverie__couri__5DCAEF64" Association="Self.FK__deliverie__couri__5DCAEF64">
+            <End Role="couriers" EntitySet="couriers" />
+            <End Role="deliveries" EntitySet="deliveries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__customer__5165187F" Association="Self.FK__orders__customer__5165187F">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__reviews__custome__6383C8BA" Association="Self.FK__reviews__custome__6383C8BA">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="reviews" EntitySet="reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__deliverie__order__5CD6CB2B" Association="Self.FK__deliverie__order__5CD6CB2B">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="deliveries" EntitySet="deliveries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__menu_item__resta__4D94879B" Association="Self.FK__menu_item__resta__4D94879B">
+            <End Role="restaurants" EntitySet="restaurants" />
+            <End Role="menu_items" EntitySet="menu_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__menu___5629CD9C" Association="Self.FK__order_ite__menu___5629CD9C">
+            <End Role="menu_items" EntitySet="menu_items" />
+            <End Role="order_items" EntitySet="order_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_ite__order__5535A963" Association="Self.FK__order_ite__order__5535A963">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="order_items" EntitySet="order_items" />
+          </AssociationSet>
+          <AssociationSet Name="FK__orders__restaura__52593CB8" Association="Self.FK__orders__restaura__52593CB8">
+            <End Role="restaurants" EntitySet="restaurants" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__reviews__restaur__628FA481" Association="Self.FK__reviews__restaur__628FA481">
+            <End Role="restaurants" EntitySet="restaurants" />
+            <End Role="reviews" EntitySet="reviews" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Dilivery2DBModelContainer" CdmEntityContainer="Dilivery2DBEntities">
+          <EntitySetMapping Name="couriers">
+            <EntityTypeMapping TypeName="Dilivery2DBModel.couriers">
+              <MappingFragment StoreEntitySet="couriers">
+                <ScalarProperty Name="courier_id" ColumnName="courier_id" />
+                <ScalarProperty Name="courier_name" ColumnName="courier_name" />
+                <ScalarProperty Name="courier_phone" ColumnName="courier_phone" />
+                <ScalarProperty Name="vehicle_type" ColumnName="vehicle_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="Dilivery2DBModel.customers">
+              <MappingFragment StoreEntitySet="customers">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="customer_address" ColumnName="customer_address" />
+                <ScalarProperty Name="customer_phone" ColumnName="customer_phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="deliveries">
+            <EntityTypeMapping TypeName="Dilivery2DBModel.deliveries">
+              <MappingFragment StoreEntitySet="deliveries">
+                <ScalarProperty Name="delivery_id" ColumnName="delivery_id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="courier_id" ColumnName="courier_id" />
+                <ScalarProperty Name="delivery_status" ColumnName="delivery_status" />
+                <ScalarProperty Name="delivery_date" ColumnName="delivery_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="menu_items">
+            <EntityTypeMapping TypeName="Dilivery2DBModel.menu_items">
+              <MappingFragment StoreEntitySet="menu_items">
+                <ScalarProperty Name="menu_item_id" ColumnName="menu_item_id" />
+                <ScalarProperty Name="restaurant_id" ColumnName="restaurant_id" />
+                <ScalarProperty Name="item_name" ColumnName="item_name" />
+                <ScalarProperty Name="item_description" ColumnName="item_description" />
+                <ScalarProperty Name="item_price" ColumnName="item_price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_items">
+            <EntityTypeMapping TypeName="Dilivery2DBModel.order_items">
+              <MappingFragment StoreEntitySet="order_items">
+                <ScalarProperty Name="order_item_id" ColumnName="order_item_id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="menu_item_id" ColumnName="menu_item_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="Dilivery2DBModel.orders">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="restaurant_id" ColumnName="restaurant_id" />
+                <ScalarProperty Name="total_amount" ColumnName="total_amount" />
+                <ScalarProperty Name="order_date" ColumnName="order_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="restaurants">
+            <EntityTypeMapping TypeName="Dilivery2DBModel.restaurants">
+              <MappingFragment StoreEntitySet="restaurants">
+                <ScalarProperty Name="restaurant_id" ColumnName="restaurant_id" />
+                <ScalarProperty Name="restaurant_name" ColumnName="restaurant_name" />
+                <ScalarProperty Name="restaurant_address" ColumnName="restaurant_address" />
+                <ScalarProperty Name="restaurant_phone" ColumnName="restaurant_phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reviews">
+            <EntityTypeMapping TypeName="Dilivery2DBModel.reviews">
+              <MappingFragment StoreEntitySet="reviews">
+                <ScalarProperty Name="review_id" ColumnName="review_id" />
+                <ScalarProperty Name="restaurant_id" ColumnName="restaurant_id" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="review_date" ColumnName="review_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

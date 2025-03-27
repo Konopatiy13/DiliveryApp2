@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6a52338fc14e455a838376e850f4cdfd" Name="Diagram1">
+        <EntityTypeShape EntityType="Dilivery2DBModel.couriers" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dilivery2DBModel.customers" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dilivery2DBModel.deliveries" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dilivery2DBModel.menu_items" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dilivery2DBModel.order_items" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dilivery2DBModel.orders" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dilivery2DBModel.restaurants" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dilivery2DBModel.reviews" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
+        <AssociationConnector Association="Dilivery2DBModel.FK__deliverie__couri__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="Dilivery2DBModel.FK__orders__customer__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="Dilivery2DBModel.FK__reviews__custome__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="Dilivery2DBModel.FK__deliverie__order__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="Dilivery2DBModel.FK__menu_item__resta__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="Dilivery2DBModel.FK__order_ite__menu___5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="Dilivery2DBModel.FK__order_ite__order__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="Dilivery2DBModel.FK__orders__restaura__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="Dilivery2DBModel.FK__reviews__restaur__628FA481" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
