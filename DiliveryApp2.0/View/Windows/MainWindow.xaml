@@ -3,58 +3,51 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DiliveryApp2._0" xmlns:viewmodel="clr-namespace:DiliveryApp2._0.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:BaseViewModel}"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="600">
+        xmlns:local="clr-namespace:DiliveryApp2._0"
+        Title="Главное меню" Height="350" Width="500" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="ToolWindow"
+        MinHeight="350"
+        MinWidth="500"
+        mc:Ignorable="d">
+
+    <Window.Resources>
+        <local:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
 
-        <ToolBarTray Orientation="Vertical" Grid.Column="0">
-            <ToolBar Width="40">
-                <Button x:Name="getButton" 
-                        Click="getButton_Click">
-                    <Image Source="/Assets/Image/Refresh.png"/>
-                </Button>
-                <Separator/>
-                <Button x:Name="deleteButton" 
-                        Click="deleteButton_Click">
-                    <Image Source="/Assets/Image/Bin.png"/>
-                </Button>
-                <Separator/>
-                <Button x:Name="addButton" 
-                        Click="addButton_Click">
-                    <Image Source="/Assets/Image/Add.png"/>
-                </Button>
-                <Separator/>
-            </ToolBar>
-        </ToolBarTray>
+        <StackPanel Orientation="Vertical" Grid.Column="0" Width="50">
+            <Button x:Name="getButton" Click="getButton_Click">
+                <Image Source="/Assets/Image/Refresh.png"/>
+            </Button>
+            <Separator/>
+            <Button x:Name="deleteButton" Click="deleteButton_Click" 
+                IsEnabled="{Binding SelectedCustomer, Converter={StaticResource NullToBooleanConverter}}">
+                <Image Source="/Assets/Image/Bin.png"/>
+            </Button>
+            <Separator/>
+            <Button x:Name="addButton" Click="addButton_Click">
+                <Image Source="/Assets/Image/Add.png"/>
+            </Button>
+            <Separator/>
+            <Button x:Name="editButton" Click="EditButton_Click" 
+                IsEnabled="{Binding SelectedCustomer, Converter={StaticResource NullToBooleanConverter}}">
+                <Image Source="/Assets/Image/edit.png" />
+            </Button>
+        </StackPanel>
 
-        <DataGrid d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}" Grid.Column="1" IsReadOnly="True" 
-                  SelectionMode="Single"
-                  
-            SelectedItem="{Binding SelectedCustomer}"
-            AutoGenerateColumns="False"
-            ItemsSource="{Binding Customers}">
-            
+        <DataGrid Grid.Column="1" IsReadOnly="True" SelectionMode="Single"
+              SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
+              AutoGenerateColumns="False" ItemsSource="{Binding Customers}">
             <DataGrid.Columns>
-                <DataGridTextColumn
-             Header="Заказчик"
-             Binding="{Binding Path=customer_name}">
-
-                </DataGridTextColumn>
-                <DataGridTextColumn
-             Header="Адресс заказчика"
-             Binding="{Binding Path=customer_address}">
-
-                </DataGridTextColumn>
-                <DataGridTextColumn
-             Header="Телефон заказчика"
-             Binding="{Binding Path=customer_phone}">
-
-                </DataGridTextColumn>
+                <DataGridTextColumn Header="Покупатель" Binding="{Binding Path=customer_name}" />
+                <DataGridTextColumn Header="Адрес покупателя" Binding="{Binding Path=customer_address}" />
+                <DataGridTextColumn Header="Телефон покупателя" Binding="{Binding Path=customer_phone}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

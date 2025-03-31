@@ -66,6 +66,7 @@
     </ApplicationDefinition>
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="Converter\NullToBooleanConverter.cs" />
     <Compile Include="View\Windows\AddCustomerWindow.xaml.cs">
       <DependentUpon>AddCustomerWindow.xaml</DependentUpon>
     </Compile>
@@ -163,6 +164,7 @@
     <Resource Include="Assets\Image\Add.png" />
     <Resource Include="Assets\Image\Bin.png" />
     <Resource Include="Assets\Image\Refresh.png" />
+    <Resource Include="Assets\Image\Edit.png" />
     <Content Include="Model\DiliveryModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DiliveryModel.Context.cs</LastGenOutput>

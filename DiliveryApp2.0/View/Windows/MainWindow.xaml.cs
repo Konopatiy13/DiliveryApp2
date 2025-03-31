@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -29,6 +30,7 @@ namespace DiliveryApp2._0
             DataContext = new MainWindowViewModel();
 
             (DataContext as MainWindowViewModel).LoadCustomer();
+
         }
 
 
@@ -45,9 +47,24 @@ namespace DiliveryApp2._0
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            AddCustomerWindow addCustomerWindow = new AddCustomerWindow();
+            AddCustomerWindow addCustomerWindow = new AddCustomerWindow(null);
             addCustomerWindow.Owner = this;
             addCustomerWindow.ShowDialog();
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = DataContext as MainWindowViewModel;
+
+            if (viewModel.SelectedCustomer == null)
+            {
+                MessageBox.Show("Пожалуйста, выберите клиента для редактирования.");
+                return;
+            }
+
+            AddCustomerWindow editCustomerWindow = new AddCustomerWindow(viewModel.SelectedCustomer);
+            editCustomerWindow.Owner = this;
+            editCustomerWindow.ShowDialog();
         }
     }
 }
