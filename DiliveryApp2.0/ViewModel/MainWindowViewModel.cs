@@ -11,77 +11,82 @@ namespace DiliveryApp2._0.ViewModel
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        private string _name;
-        private int _customer_id;
-        private int restaurant_id;
-        private ObservableCollection<orders> _orders;
-        private orders _selectedOrder;
-        private orders _newOrder;
+        private string _customer_name;
+        private string _customer_address;
+        private string _customer_phone;
+        private ObservableCollection<customers> _customers;
+        private customers _selectedCustomer;
+        private customers _newCustomer;
 
-        public string Name
+        public string CustomerName
         {
-            get => _name;
-            set => SetPropertyChanged(ref _name, value, nameof(Name));
+            get => _customer_name;
+            set => SetPropertyChanged(ref _customer_name, value, nameof(CustomerName));
         }
 
-        public int Course
+        public string CustomerAddress
         {
-            get => _customer_id;
-            set => SetPropertyChanged(ref _customer_id, value, nameof(Course));
+            get => _customer_address;
+            set => SetPropertyChanged(ref _customer_address, value, nameof(CustomerAddress));
+        }
+        public string CustomerPhone
+        {
+            get => _customer_phone;
+            set => SetPropertyChanged(ref _customer_phone, value, nameof(CustomerPhone));
         }
 
-        public ObservableCollection<orders> Orders
+        public ObservableCollection<customers> Customers
         {
-            get => _orders;
-            set => SetPropertyChanged(ref _orders, value, nameof(Orders));
+            get => _customers;
+            set => SetPropertyChanged(ref _customers, value, nameof(Customers));
         }
 
-        public orders SelectedOrder
+        public customers SelectedCustomer
         {
-            get => _selectedOrder;
-            set => SetPropertyChanged(ref _selectedOrder, value, nameof(SelectedOrder));
+            get => _selectedCustomer;
+            set => SetPropertyChanged(ref _selectedCustomer, value, nameof(SelectedCustomer));
         }
 
-        public orders NewOrder
+        public customers NewCustomer
         {
-            get => _newOrder;
-            set => SetPropertyChanged(ref _newOrder, value, nameof(NewOrder));
+            get => _newCustomer;
+            set => SetPropertyChanged(ref _newCustomer, value, nameof(NewCustomer));
         }
 
 
         public MainWindowViewModel()
         {
-            Orders = new ObservableCollection<orders>();
-            NewOrder = new orders();
+            Customers = new ObservableCollection<customers>();
+            NewCustomer = new customers();
         }
 
-        public void LoadOrder()
+        public void LoadCustomer()
         {
-            Orders.Clear();
+            Customers.Clear();
             using (var context = new Dilivery2DBEntities())
             {
-                var temp = context.orders.ToList();
+                var temp = context.customers.ToList();
 
-                foreach (var student in temp)
+                foreach (var customer in temp)
                 {
-                    Orders.Add(student);
+                    Customers.Add(customer);
                 }
             }
         }
 
-        public void DeleteOrder()
+        public void DeleteCustomer()
         {
             try
             {
                 using (var context = new Dilivery2DBEntities())
                 {
-                    var findEntity = context.orders.FirstOrDefault(s => s.order_id == SelectedOrder.order_id);
+                    var findEntity = context.customers.FirstOrDefault(s => s.customer_id == SelectedCustomer.customer_id);
                     if (findEntity == null)
                         return;
-                    var result = context.orders.Remove(findEntity);
+                    var result = context.customers.Remove(findEntity);
                     context.SaveChanges();
 
-                    LoadOrder();
+                    LoadCustomer();
                 }
             }
             catch (Exception ex)
@@ -91,12 +96,12 @@ namespace DiliveryApp2._0.ViewModel
 
         }
 
-        public bool AddNewOrder()
+        public bool AddNewCustomer()
         {
 
             using (var context = new Dilivery2DBEntities())
             {
-                var newOrder = context.orders.Add(NewOrder);
+                var newCustomer = context.customers.Add(NewCustomer);
                 context.SaveChanges();
                 return true;
             }

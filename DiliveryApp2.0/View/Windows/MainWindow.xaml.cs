@@ -28,24 +28,26 @@ namespace DiliveryApp2._0
 
             DataContext = new MainWindowViewModel();
 
-            (DataContext as MainWindowViewModel).LoadOrder();
+            (DataContext as MainWindowViewModel).LoadCustomer();
         }
+
+
 
         private void getButton_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainWindowViewModel).LoadOrder();
+            (DataContext as MainWindowViewModel).LoadCustomer();
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainWindowViewModel).DeleteOrder();
+            (DataContext as MainWindowViewModel).DeleteCustomer();
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            AddOrderWindow addOrderWindow = new AddOrderWindow();
-            addOrderWindow.Owner = this;
-            addOrderWindow.ShowDialog();
+            AddCustomerWindow addCustomerWindow = new AddCustomerWindow();
+            addCustomerWindow.Owner = this;
+            addCustomerWindow.ShowDialog();
         }
     }
 }
