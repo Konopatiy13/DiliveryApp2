@@ -66,8 +66,9 @@
     </ApplicationDefinition>
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="View\Windows\AddOrderWindow.xaml.cs">
-      <DependentUpon>AddOrderWindow.xaml</DependentUpon>
+    <Compile Include="Converter\NullToBooleanConverter.cs" />
+    <Compile Include="View\Windows\AddCustomerWindow.xaml.cs">
+      <DependentUpon>AddCustomerWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="View\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -81,7 +82,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\Windows\AddOrderWindow.xaml">
+    <Page Include="View\Windows\AddCustomerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,6 +161,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Image\Add.png" />
+    <Resource Include="Assets\Image\Bin.png" />
+    <Resource Include="Assets\Image\Refresh.png" />
+    <Resource Include="Assets\Image\Edit.png" />
     <Content Include="Model\DiliveryModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DiliveryModel.Context.cs</LastGenOutput>
@@ -174,5 +179,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище Dilivery2DBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище Dilivery2DBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="couriers">
           <Key>
             <PropertyRef Name="courier_id" />
@@ -60,7 +60,7 @@
           <Property Name="customer_id" Type="int" Nullable="false" />
           <Property Name="restaurant_id" Type="int" Nullable="false" />
           <Property Name="total_amount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="order_date" Type="datetime" Nullable="false" />
+          <Property Name="order_date" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="restaurants">
           <Key>
@@ -236,8 +236,7 @@
             <End Role="reviews" EntitySet="reviews" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Dilivery2DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -270,7 +269,7 @@
           <Property Name="order_id" Type="Int32" Nullable="false" />
           <Property Name="courier_id" Type="Int32" Nullable="false" />
           <Property Name="delivery_status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="delivery_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="delivery_date" Nullable="false" Precision="3" Type="DateTime" />
           <NavigationProperty Name="couriers" Relationship="Self.FK__deliverie__couri__5DCAEF64" FromRole="deliveries" ToRole="couriers" />
           <NavigationProperty Name="orders" Relationship="Self.FK__deliverie__order__5CD6CB2B" FromRole="deliveries" ToRole="orders" />
         </EntityType>
@@ -305,11 +304,11 @@
           <Property Name="customer_id" Type="Int32" Nullable="false" />
           <Property Name="restaurant_id" Type="Int32" Nullable="false" />
           <Property Name="total_amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="order_date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="customers" Relationship="Self.FK__orders__customer__5165187F" FromRole="orders" ToRole="customers" />
           <NavigationProperty Name="deliveries" Relationship="Self.FK__deliverie__order__5CD6CB2B" FromRole="orders" ToRole="deliveries" />
           <NavigationProperty Name="order_items" Relationship="Self.FK__order_ite__order__5535A963" FromRole="orders" ToRole="order_items" />
           <NavigationProperty Name="restaurants" Relationship="Self.FK__orders__restaura__52593CB8" FromRole="orders" ToRole="restaurants" />
+          <Property Name="order_date" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <EntityType Name="restaurants">
           <Key>
@@ -551,11 +550,11 @@
           <EntitySetMapping Name="orders">
             <EntityTypeMapping TypeName="Dilivery2DBModel.orders">
               <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="order_date" ColumnName="order_date" />
                 <ScalarProperty Name="order_id" ColumnName="order_id" />
                 <ScalarProperty Name="customer_id" ColumnName="customer_id" />
                 <ScalarProperty Name="restaurant_id" ColumnName="restaurant_id" />
                 <ScalarProperty Name="total_amount" ColumnName="total_amount" />
-                <ScalarProperty Name="order_date" ColumnName="order_date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

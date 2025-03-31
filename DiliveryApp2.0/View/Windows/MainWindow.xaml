@@ -4,87 +4,51 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DiliveryApp2._0"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Главное меню" Height="350" Width="500" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="ToolWindow"
+        MinHeight="350"
+        MinWidth="500"
+        mc:Ignorable="d">
+
+    <Window.Resources>
+        <local:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+    </Window.Resources>
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
 
-        <DataGrid>
-            <TextBox
-                Width="100" Height="100" Text="дизайн будет сделан на выходных">
-            </TextBox>
-        </DataGrid>
-        <DataGrid
-            IsReadOnly="True"
-            SelectedItem="{Binding SelectedStudent}"
-            Grid.Row="1"
-            AutoGenerateColumns="False"
-            ItemsSource="{Binding Students}">
+        <StackPanel Orientation="Vertical" Grid.Column="0" Width="50">
+            <Button x:Name="getButton" Click="getButton_Click">
+                <Image Source="/Assets/Image/Refresh.png"/>
+            </Button>
+            <Separator/>
+            <Button x:Name="deleteButton" Click="deleteButton_Click" 
+                IsEnabled="{Binding SelectedCustomer, Converter={StaticResource NullToBooleanConverter}}">
+                <Image Source="/Assets/Image/Bin.png"/>
+            </Button>
+            <Separator/>
+            <Button x:Name="addButton" Click="addButton_Click">
+                <Image Source="/Assets/Image/Add.png"/>
+            </Button>
+            <Separator/>
+            <Button x:Name="editButton" Click="EditButton_Click" 
+                IsEnabled="{Binding SelectedCustomer, Converter={StaticResource NullToBooleanConverter}}">
+                <Image Source="/Assets/Image/edit.png" />
+            </Button>
+        </StackPanel>
 
+        <DataGrid Grid.Column="1" IsReadOnly="True" SelectionMode="Single"
+              SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
+              AutoGenerateColumns="False" ItemsSource="{Binding Customers}">
             <DataGrid.Columns>
-                <DataGridTextColumn
-                    Header="ФИО"
-                    Binding="{Binding Path=Name}">
-
-                </DataGridTextColumn>
-                <DataGridTextColumn
-                    Header="Курс"
-                    Binding="{Binding Path=Course}">
-
-                </DataGridTextColumn>
-                <DataGridTextColumn
-                    Header="Курс"
-                    Binding="{Binding Path=Course}">
-
-                </DataGridTextColumn>
-                <DataGridTextColumn
-                    Header="Курс"
-                    Binding="{Binding Path=Course}">
-
-                </DataGridTextColumn>
+                <DataGridTextColumn Header="Покупатель" Binding="{Binding Path=customer_name}" />
+                <DataGridTextColumn Header="Адрес покупателя" Binding="{Binding Path=customer_address}" />
+                <DataGridTextColumn Header="Телефон покупателя" Binding="{Binding Path=customer_phone}" />
             </DataGrid.Columns>
         </DataGrid>
-
-        <Grid
-            Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Button
-                Grid.Row="1"
-                Grid.Column="0"
-                Content="Получить данные"
-                Name="getButton"
-                Click="getButton_Click">
-
-            </Button>
-            <Button
-                Grid.Row="1"
-                Grid.Column="1"
-                Content="Удалить"
-                Name="deleteButton"
-                Click="deleteButton_Click">
-
-            </Button>
-            <Button
-                Name="addButton"
-                Content="Добавить"
-                Grid.Column="2"
-                Click="addButton_Click">
-
-            </Button>
-
-        </Grid>
-
-
-
-
-
     </Grid>
 </Window>

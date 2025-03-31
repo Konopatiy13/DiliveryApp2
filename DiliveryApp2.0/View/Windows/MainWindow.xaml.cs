@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -28,24 +29,42 @@ namespace DiliveryApp2._0
 
             DataContext = new MainWindowViewModel();
 
-            (DataContext as MainWindowViewModel).LoadOrder();
+            (DataContext as MainWindowViewModel).LoadCustomer();
+
         }
+
+
 
         private void getButton_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainWindowViewModel).LoadOrder();
+            (DataContext as MainWindowViewModel).LoadCustomer();
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainWindowViewModel).DeleteOrder();
+            (DataContext as MainWindowViewModel).DeleteCustomer();
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            AddOrderWindow addOrderWindow = new AddOrderWindow();
-            addOrderWindow.Owner = this;
-            addOrderWindow.ShowDialog();
+            AddCustomerWindow addCustomerWindow = new AddCustomerWindow(null);
+            addCustomerWindow.Owner = this;
+            addCustomerWindow.ShowDialog();
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = DataContext as MainWindowViewModel;
+
+            if (viewModel.SelectedCustomer == null)
+            {
+                MessageBox.Show("Пожалуйста, выберите клиента для редактирования.");
+                return;
+            }
+
+            AddCustomerWindow editCustomerWindow = new AddCustomerWindow(viewModel.SelectedCustomer);
+            editCustomerWindow.Owner = this;
+            editCustomerWindow.ShowDialog();
         }
     }
 }
