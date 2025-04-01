@@ -32,9 +32,6 @@ namespace DiliveryApp2._0
             (DataContext as MainWindowViewModel).LoadCustomer();
 
         }
-
-
-
         private void getButton_Click(object sender, RoutedEventArgs e)
         {
             (DataContext as MainWindowViewModel).LoadCustomer();
@@ -54,17 +51,10 @@ namespace DiliveryApp2._0
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var viewModel = DataContext as MainWindowViewModel;
 
-            if (viewModel.SelectedCustomer == null)
-            {
-                MessageBox.Show("Пожалуйста, выберите клиента для редактирования.");
-                return;
-            }
-
-            AddCustomerWindow editCustomerWindow = new AddCustomerWindow(viewModel.SelectedCustomer);
-            editCustomerWindow.Owner = this;
-            editCustomerWindow.ShowDialog();
+            AddCustomerWindow addCustomerWindow = new AddCustomerWindow((DataContext as MainWindowViewModel).SelectedCustomer);
+            addCustomerWindow.Owner = this;
+            addCustomerWindow.ShowDialog();
         }
     }
 }

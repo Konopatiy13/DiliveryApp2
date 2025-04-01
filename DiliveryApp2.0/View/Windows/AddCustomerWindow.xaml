@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DiliveryApp2._0.View.Windows" xmlns:viewmodel="clr-namespace:DiliveryApp2._0.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
         mc:Ignorable="d"
-        Title="AddCustomerWindow" Height="400" Width="300" MinHeight="200" MinWidth="150">
+        Title="Окно добавления покупателя" Height="400" Width="300" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

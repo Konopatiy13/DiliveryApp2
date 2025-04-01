@@ -17,48 +17,35 @@ using DiliveryApp2._0.ViewModel;
 namespace DiliveryApp2._0.View.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для AddCustomerWindow.xaml
+    /// Логика взаимодействия для AddOrderWindow.xaml
     /// </summary>
     public partial class AddCustomerWindow : Window
     {
+        private customers isNewCustomer;
         public AddCustomerWindow(customers editCustomer)
         {
-            InitializeComponent();
-            var viewModel = new MainWindowViewModel();
-            DataContext = viewModel;
-            viewModel.NewCustomer = editCustomer;
+                InitializeComponent();
+            DataContext = new MainWindowViewModel();
+            (DataContext as MainWindowViewModel).NewCustomer = editCustomer;
+
+            isNewCustomer = editCustomer;
+
+            if (isNewCustomer == null)
+            {
+                (DataContext as MainWindowViewModel).NewCustomer = new customers();
+            }
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            var viewModel = DataContext as MainWindowViewModel;
-            if (viewModel == null)
-            {
-                MessageBox.Show("Не удалось загрузить данные.", "Ошибка", MessageBoxButton.OK);
-                return;
-            }
+            var result = (DataContext as MainWindowViewModel).AddNewCustomer();
 
-            try
+            if (result)
             {
-                var result = viewModel.EditCustomer();
-
-                if (result)
-                {
-                    MessageBox.Show("Запись сохранена!", "Управление товарами", MessageBoxButton.OK);
-                    var mainWindowViewModel = (this.Owner as MainWindow)?.DataContext as MainWindowViewModel;
-                    mainWindowViewModel?.LoadCustomer();
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Ошибка при сохранении записи.", "Ошибка", MessageBoxButton.OK);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK);
+                MessageBox.Show("Объект записан");
+                ((this.Owner as MainWindow).DataContext as MainWindowViewModel).EditCustomer();
+                this.Close();
             }
         }
     }
-
 }

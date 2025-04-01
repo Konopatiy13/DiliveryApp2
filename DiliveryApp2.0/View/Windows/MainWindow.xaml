@@ -5,50 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DiliveryApp2._0"
         Title="Главное меню" Height="350" Width="500" 
+        
         WindowStartupLocation="CenterScreen" 
         WindowStyle="ToolWindow"
         MinHeight="350"
         MinWidth="500"
-        mc:Ignorable="d">
-
-    <Window.Resources>
-        <local:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
-    </Window.Resources>
-
+        mc:Ignorable="d"
+        >
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="7*"/>
-        </Grid.ColumnDefinitions>
+        <DockPanel >
+            <DockPanel.Background>
+                <ImageBrush ImageSource="/Assets/Image/orig.png" Stretch="UniformToFill" TileMode="Tile" Opacity="0.52">
+                    <ImageBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.9"/>
+                            <SkewTransform CenterX="0.9" CenterY="0.5"/>
+                            <RotateTransform CenterX="0.9" CenterY="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ImageBrush.RelativeTransform>
+                </ImageBrush>
+            </DockPanel.Background>
 
-        <StackPanel Orientation="Vertical" Grid.Column="0" Width="50">
-            <Button x:Name="getButton" Click="getButton_Click">
-                <Image Source="/Assets/Image/Refresh.png"/>
-            </Button>
-            <Separator/>
-            <Button x:Name="deleteButton" Click="deleteButton_Click" 
-                IsEnabled="{Binding SelectedCustomer, Converter={StaticResource NullToBooleanConverter}}">
-                <Image Source="/Assets/Image/Bin.png"/>
-            </Button>
-            <Separator/>
-            <Button x:Name="addButton" Click="addButton_Click">
-                <Image Source="/Assets/Image/Add.png"/>
-            </Button>
-            <Separator/>
-            <Button x:Name="editButton" Click="EditButton_Click" 
-                IsEnabled="{Binding SelectedCustomer, Converter={StaticResource NullToBooleanConverter}}">
-                <Image Source="/Assets/Image/edit.png" />
-            </Button>
-        </StackPanel>
+            <StackPanel DockPanel.Dock="Left" Width="100" >
+                <Button Content="Товары" Foreground="White" Background="Transparent"/>
+                <Button Content="Заказы" Foreground="White" Background="Transparent"/>
+                <Button Content="Статистика" Foreground="White" Background="Transparent"/>
+            </StackPanel>
 
-        <DataGrid Grid.Column="1" IsReadOnly="True" SelectionMode="Single"
-              SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
-              AutoGenerateColumns="False" ItemsSource="{Binding Customers}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Покупатель" Binding="{Binding Path=customer_name}" />
-                <DataGridTextColumn Header="Адрес покупателя" Binding="{Binding Path=customer_address}" />
-                <DataGridTextColumn Header="Телефон покупателя" Binding="{Binding Path=customer_phone}" />
-            </DataGrid.Columns>
-        </DataGrid>
+
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <ToolBar>
+                        <Button Content=" Добавить" Foreground="Black" Background="Transparent" Click="addButton_Click"/>
+                        <Separator/>
+                        <Button Content=" Изменить" Foreground="Black" Background="Transparent" Click="EditButton_Click"/>
+                        <Separator/>
+                        <Button Content=" Удалить" Foreground="Black" Background="Transparent" Click="deleteButton_Click"/>
+                        <Separator/>
+                        <Button Content=" Обновить" Foreground="Black" Background="Transparent" Click="getButton_Click"/>
+                        <Separator/>
+                        <Button Content=" Справка" Foreground="Black" Background="Transparent"/>
+
+                    </ToolBar>
+                </StackPanel>
+
+                <DataGrid Grid.Row="1" AutoGenerateColumns="False" Margin="0,10,0,0"
+                           SelectedItem="{Binding SelectedCustomer}"
+                          ItemsSource="{Binding Customers}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ФИО заказчика" Binding="{Binding Path=customer_name}"/>
+                        <DataGridTextColumn Header="Адресс" Binding="{Binding Path=customer_address}"/>
+                        <DataGridTextColumn Header="Телефон" Binding="{Binding Path=customer_phone}"/>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </DockPanel>
     </Grid>
+
 </Window>

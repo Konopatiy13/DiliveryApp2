@@ -6,36 +6,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using DiliveryApp2._0.Model;
 
 namespace DiliveryApp2._0.ViewModel
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        private string _customer_name;
-        private string _customer_address;
-        private string _customer_phone;
         private ObservableCollection<customers> _customers;
+        private int _customerId;
+        private string _customerName;
+        private string _customerAddress;
+        private string _customerPhone;
         private customers _selectedCustomer;
         private customers _newCustomer;
 
-        public string CustomerName
+        private ObservableCollection<couriers> _couriers;
+        private int _courierId;
+        private string _courierName;
+        private string _courierPhone;
+        private string _vehicleType;
+        private couriers _selectedCouriers;
+        private couriers _newCouriers;
+
+        public string Name
         {
-            get => _customer_name;
-            set => SetPropertyChanged(ref _customer_name, value, nameof(CustomerName));
+            get => _customerName;
+            set => SetPropertyChanged(ref _customerName, value, nameof(Name));
         }
 
-        public string CustomerAddress
+        public string Address
         {
-            get => _customer_address;
-            set => SetPropertyChanged(ref _customer_address, value, nameof(CustomerAddress));
+            get => _customerAddress;
+            set => SetPropertyChanged(ref _customerAddress, value, nameof(Address));
         }
-
-        public string CustomerPhone
+        public string Phone
         {
-            get => _customer_phone;
-            set => SetPropertyChanged(ref _customer_phone, value, nameof(CustomerPhone));
+            get => _customerPhone;
+            set => SetPropertyChanged(ref _customerPhone, value, nameof(Phone));
         }
 
         public ObservableCollection<customers> Customers
@@ -44,19 +51,18 @@ namespace DiliveryApp2._0.ViewModel
             set => SetPropertyChanged(ref _customers, value, nameof(Customers));
         }
 
-        // Используем SelectedCustomer для редактирования и удаления
         public customers SelectedCustomer
         {
             get => _selectedCustomer;
-            set => SetPropertyChanged(ref _selectedCustomer, value, nameof(SelectedCustomer));
+            set => SetPropertyChanged(ref _selectedCustomer, value, nameof(Customers));
         }
 
-        // NewCustomer используется только для добавления нового клиента
         public customers NewCustomer
         {
             get => _newCustomer;
-            set => SetPropertyChanged(ref _newCustomer, value, nameof(NewCustomer));
+            set => SetPropertyChanged(ref _newCustomer, value, nameof(Customers));
         }
+
 
         public MainWindowViewModel()
         {
@@ -69,8 +75,9 @@ namespace DiliveryApp2._0.ViewModel
             Customers.Clear();
             using (var context = new Dilivery2DBEntities())
             {
-                var customersList = context.customers.ToList();
-                foreach (var customer in customersList)
+                var temp = context.customers.ToList();
+
+                foreach (var customer in temp)
                 {
                     Customers.Add(customer);
                 }
@@ -79,100 +86,50 @@ namespace DiliveryApp2._0.ViewModel
 
         public void DeleteCustomer()
         {
-            if (SelectedCustomer == null)
-            {
-                MessageBox.Show("Клиент не выбран для удаления.");
-                return;
-            }
-
             try
             {
                 using (var context = new Dilivery2DBEntities())
                 {
                     var findEntity = context.customers.FirstOrDefault(s => s.customer_id == SelectedCustomer.customer_id);
                     if (findEntity == null)
-                    {
-                        MessageBox.Show("Клиент не найден в базе данных.");
                         return;
-                    }
-
-                    context.customers.Remove(findEntity);
+                    var result = context.customers.Remove(findEntity);
                     context.SaveChanges();
+
                     LoadCustomer();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при удалении клиента: {ex.Message}");
+                MessageBox.Show(ex.Message);
             }
+
         }
 
         public bool AddNewCustomer()
         {
-            if (NewCustomer == null)
-            {
-                MessageBox.Show("Необходимо заполнить данные нового клиента.");
-                return false;
-            }
 
-            try
+            using (var context = new Dilivery2DBEntities())
             {
-                using (var context = new Dilivery2DBEntities())
-                {
-                    context.customers.Add(NewCustomer);
-                    context.SaveChanges();
-                }
-
-                NewCustomer = new customers(); // создаем новый объект для ввода следующего клиента
-                LoadCustomer();
+                var newCustomer = context.customers.Add(NewCustomer);
+                context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при добавлении клиента: {ex.Message}");
-                return false;
-            }
-        }
 
+        }
         public bool EditCustomer()
         {
-            if (SelectedCustomer == null)
+            using (var context = new Dilivery2DBEntities())
             {
-                MessageBox.Show("Клиент не выбран для редактирования.");
-                return false;
-            }
-            else
-            {
-                MessageBox.Show($"Выбран клиент: {SelectedCustomer.customer_name}");
-            }
-
-            try
-            {
-                using (var context = new Dilivery2DBEntities())
+                var findEntity = context.customers.FirstOrDefault(s => s.customer_id == NewCustomer.customer_id);
+                if (findEntity != null)
                 {
-                    var entity = context.customers.FirstOrDefault(s => s.customer_id == SelectedCustomer.customer_id);
-                    if (entity == null)
-                    {
-                        MessageBox.Show("Клиент не найден в базе данных.");
-                        return false;
-                    }
-
-                    // Копируем данные из выбранного клиента
-                    entity.customer_name = SelectedCustomer.customer_name;
-                    entity.customer_address = SelectedCustomer.customer_address;
-                    entity.customer_phone = SelectedCustomer.customer_phone;
-
+                    context.customers.AddOrUpdate(NewCustomer);
                     context.SaveChanges();
+                    return true;
                 }
-
-                LoadCustomer();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при редактировании клиента: {ex.Message}");
-                return false;
+                else { return false; }
             }
         }
     }
-} 
+}

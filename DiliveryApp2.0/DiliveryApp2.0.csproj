@@ -165,6 +165,7 @@
     <Resource Include="Assets\Image\Bin.png" />
     <Resource Include="Assets\Image\Refresh.png" />
     <Resource Include="Assets\Image\Edit.png" />
+    <Resource Include="Assets\Image\orig.png" />
     <Content Include="Model\DiliveryModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DiliveryModel.Context.cs</LastGenOutput>
